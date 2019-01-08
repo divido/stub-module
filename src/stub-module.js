@@ -9,6 +9,9 @@ define([
     lang,
     Deferred
     ) {
+
+    var uniqueCounter = 0;
+
     return function (modulePath, stubs) {
         var key;
         var stubname;
@@ -59,10 +62,9 @@ define([
             resetMap['*'] = {};
             for (var key in stubs) {
                 if (stubs.hasOwnProperty(key)) {
-                    // timestamp is to avoid a multiple define error when stubbing the same
+                    // Unique Counter is to avoid a multiple define error when stubbing the same
                     // module twice. See 'can stub the same module more than once test'
-                    stubname = 'STUB_' + key + Date.now();
-
+                    stubname = 'STUB_' + key + (++uniqueCounter);
                     stubMap['*'][key] = stubname;
                     resetMap['*'][key] = key;
 
